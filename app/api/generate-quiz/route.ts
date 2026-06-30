@@ -6,7 +6,7 @@ import { extractPdfText, validatePdfContent } from "@/lib/pdf"
 import { generateQuizRequestSchema } from "@/lib/quiz-schema"
 
 /** 10 MB raw file size limit (base64 is ~33% larger than raw). */
-const MAX_PDF_SIZE_BYTES = 10 * 1024 * 1024
+const MAX_PDF_SIZE_BYTES = 5 * 1024 * 1024
 
 export async function POST(request: Request) {
   try {
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
       if (pdfBuffer.length > MAX_PDF_SIZE_BYTES) {
         return NextResponse.json(
-          { error: "PDF is too large. Please upload a file under 10 MB." },
+          { error: "PDF is too large. Please upload a file under 5 MB." },
           { status: 400 }
         )
       }
