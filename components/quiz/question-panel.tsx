@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckCircle2, ChevronLeft, ChevronRight } from "lucide-react"
+import { CheckCircle2, ChevronLeft, ChevronRight, SendHorizonal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -16,6 +16,8 @@ export function QuestionPanel({
   answers,
   onAnswer,
   onNavigate,
+  onSubmit,
+  submitting,
 }: {
   question: QuizQuestion
   index: number
@@ -23,6 +25,8 @@ export function QuestionPanel({
   answers: UserAnswers
   onAnswer: (questionId: string, value: string) => void
   onNavigate: (index: number) => void
+  onSubmit: () => void
+  submitting: boolean
 }) {
   return (
     <div className="space-y-7">
@@ -139,15 +143,25 @@ export function QuestionPanel({
           {index + 1} / {total}
         </div>
 
-        <Button
-          variant="outline"
-          size="lg"
-          onClick={() => onNavigate(index + 1)}
-          disabled={index === total - 1}
-        >
-          Next
-          <ChevronRight className="ml-1 size-4" />
-        </Button>
+        {index === total - 1 ? (
+          <Button
+            size="lg"
+            onClick={onSubmit}
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit"}
+            <SendHorizonal className="ml-1 size-4" />
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={() => onNavigate(index + 1)}
+          >
+            Next
+            <ChevronRight className="ml-1 size-4" />
+          </Button>
+        )}
       </div>
     </div>
   )
