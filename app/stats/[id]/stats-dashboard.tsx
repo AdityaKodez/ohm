@@ -4,7 +4,7 @@ import { CheckCircle2, RotateCcw, Sparkles, Target } from "lucide-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 
-import { AnswerReview } from "@/components/stats/answer-review"
+import { AnswerReview, type AnswerFilter } from "@/components/stats/answer-review"
 import { InsightNotes } from "@/components/stats/insight-notes"
 import { PerformanceCharts } from "@/components/stats/performance-charts"
 import { ScoreHeader } from "@/components/stats/score-header"
@@ -22,13 +22,21 @@ import { compactSectionLabel, getAnswerFill, getScoreFill } from "@/lib/stats-fo
 
 export function StatsDashboard({ id }: { id: string }) {
   const { result, quiz, loadError } = useQuizResult(id)
-  const [showIncorrectOnly, setShowIncorrectOnly] = useState(false)
+  const [filter, setFilter] = useState<AnswerFilter>("all")
 
   const filteredAnswers = useMemo(() => {
     if (!result) return []
-    if (!showIncorrectOnly) return result.evaluatedAnswers
-    return result.evaluatedAnswers.filter((a) => a.status !== "correct")
-  }, [result, showIncorrectOnly])
+    if (filter === "all") return result.evaluatedAnswers
+    if (filter === "missed")
+      return result.evaluatedAnswers.filter(
+        (a) => a.status === "incorrect" && !a.userAnswer?.trim()
+      )
+    if (filter === "incorrect")
+      return result.evaluatedAnswers.filter(
+        (a) => a.status === "incorrect" && !!a.userAnswer?.trim()
+      )
+    return result.evaluatedAnswers.filter((a) => a.status === filter)
+  }, [result, filter])
 
   const answerIndexById = useMemo(() => {
     if (!result) return new Map<string, number>()
@@ -117,8 +125,8 @@ export function StatsDashboard({ id }: { id: string }) {
         <AnswerReview
           filteredAnswers={filteredAnswers}
           answerIndexById={answerIndexById}
-          showIncorrectOnly={showIncorrectOnly}
-          onToggle={() => setShowIncorrectOnly(!showIncorrectOnly)}
+          filter={filter}
+          onFilterChange={setFilter}
         />
 
         <PerformanceCharts
