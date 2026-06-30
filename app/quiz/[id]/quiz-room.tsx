@@ -107,6 +107,8 @@ router.push(`/stats/${quiz.id}`)
                 answers={answers}
                 onAnswer={setAnswer}
                 onNavigate={goToQuestion}
+                onSubmit={submitQuiz}
+                submitting={submitting}
               />
             )}
           </div>
