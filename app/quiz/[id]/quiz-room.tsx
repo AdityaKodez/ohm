@@ -4,6 +4,7 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useMemo, useState } from "react"
+import { toast } from "sonner"
 
 import { QuestionPanel } from "@/components/quiz/question-panel"
 import { QuizError } from "@/components/quiz/quiz-error"
@@ -71,7 +72,9 @@ saveResult(data.result)
 markQuizSubmitted(quiz.id)
 router.push(`/stats/${quiz.id}`)
     } catch (error) {
-      setSubmitError(error instanceof Error ? error.message : "Evaluation failed.")
+      const message = error instanceof Error ? error.message : "Evaluation failed."
+      toast.error(message)
+      setSubmitError(message)
       setSubmitting(false)
     }
   }
