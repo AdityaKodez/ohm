@@ -8,6 +8,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Ohm | AI Quiz Generator",
   description: "A live AI quiz generator for school exhibitions.",
+  icons: {
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
+  },
 }
 
 const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading'});
