@@ -46,19 +46,22 @@ export function QuizCreator() {
 
 
   const hasPdf = pdfBase64.length > 0
+  const [fileSizeError, setFileSizeError] = useState("")
+
+  /** 5 MB client-side limit. */
+  const MAX_FILE_SIZE = 5 * 1024 * 1024
+
   const canGenerate = useMemo(
-    () => topic.trim().length > 2 || hasPdf,
-    [hasPdf, topic]
+    () => (topic.trim().length > 2 || hasPdf) && !fileSizeError,
+    [hasPdf, topic, fileSizeError]
   )
   const shouldReduceMotion = useReducedMotion()
-
-  /** 10 MB limit — matches the server-side guard. */
-  const MAX_FILE_SIZE = 10 * 1024 * 1024
 
   async function handleFile(file: File | undefined) {
     if (!file) return
 
     setError("")
+    setFileSizeError("")
 
     if (file.type !== "application/pdf") {
       removeFile()
@@ -67,8 +70,12 @@ export function QuizCreator() {
     }
 
     if (file.size > MAX_FILE_SIZE) {
-      removeFile()
-      setError("PDF is too large. Please upload a file under 10 MB.")
+      setFileName(file.name)
+      setFileSize(formatBytes(file.size))
+      setPdfBase64("")
+      setFileSizeError(
+        `File is too large (${formatBytes(file.size)}). Maximum allowed size is 5 MB.`
+      )
       return
     }
 
@@ -91,6 +98,7 @@ export function QuizCreator() {
     setPdfBase64("")
     setFileName("")
     setFileSize("")
+    setFileSizeError("")
 
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
@@ -283,6 +291,12 @@ export function QuizCreator() {
               </div>
             </InputGroupAddon>
           </InputGroup>
+
+          {fileSizeError && (
+            <div className="rounded-2xl bg-destructive/10 p-3 text-sm text-destructive">
+              {fileSizeError}
+            </div>
+          )}
 
           {error && (
             <div className="rounded-2xl bg-destructive/10 p-3 text-sm text-destructive">
