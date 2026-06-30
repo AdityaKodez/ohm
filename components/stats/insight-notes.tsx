@@ -18,7 +18,7 @@ export function InsightNotes({
           {icon}
         </span>
         <div className="flex flex-col">
-          <h2 className="font-heading text-base font-medium">{title}</h2>
+          <h2 className="font-heading text-lg font-medium">{title}</h2>
           <p className="text-xs text-muted-foreground">{description}</p>
         </div>
       </div>

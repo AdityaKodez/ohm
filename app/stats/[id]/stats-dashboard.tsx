@@ -146,7 +146,7 @@ export function StatsDashboard({ id }: { id: string }) {
         <section className="pt-5">
           <div className="flex items-center gap-2">
             <Sparkles aria-hidden className="h-4 w-4 text-primary" />
-            <h2 className="font-heading text-base font-medium">Next moves</h2>
+            <h2 className="font-heading text-lg font-medium">Next moves</h2>
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
             Short actions to make the next attempt better.

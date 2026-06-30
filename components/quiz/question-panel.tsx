@@ -31,14 +31,12 @@ export function QuestionPanel({
           <span className="inline-flex items-center rounded-full bg-primary px-3 py-1 text-[11px] font-semibold text-primary-foreground">
             Q{index + 1}
           </span>
-<div className="space-y-3">
-        <p className="text-xs font-medium font-mono text-muted-foreground">
-          {question.section === "mcq" && "Multiple Choice Question"}
-          {question.section === "fill-blank" && "Fill in the Blanks Question"}
-          {question.section === "assertion-reason" && "Assertion & Reason Question"}
-          {question.section === "short-answer" && "Short Answer Question"}
-        </p>
-      </div>
+          <p className="text-xs font-medium font-mono text-muted-foreground">
+            {question.section === "mcq" && "Multiple Choice Question"}
+            {question.section === "fill-blank" && "Fill in the Blanks Question"}
+            {question.section === "assertion-reason" && "Assertion & Reason Question"}
+            {question.section === "short-answer" && "Short Answer Question"}
+          </p>
           {answers[question.id]?.trim() && (
             <CheckCircle2 className="ml-auto size-5 text-primary" />
           )}
@@ -101,24 +99,36 @@ export function QuestionPanel({
 
         {question.section === "fill-blank" && (
           <div className="space-y-3 flex flex-col">
-            <label className="text-xs text-foreground/90">Your Answer</label>
+            <label
+              htmlFor={`answer-${question.id}`}
+              className="text-xs font-medium text-muted-foreground"
+            >
+              Your Answer
+            </label>
             <Input
+              id={`answer-${question.id}`}
               className="h-12 text-sm font-heading"
               value={answers[question.id] ?? ""}
               onChange={(e) => onAnswer(question.id, e.target.value)}
-              placeholder="Type your answer..."
+              placeholder="Type your answer…"
             />
           </div>
         )}
 
         {question.section === "short-answer" && (
           <div className="space-y-2.5 flex flex-col">
-            <label className="text-xs font-medium text-muted-foreground">Your Answer</label>
+            <label
+              htmlFor={`answer-${question.id}`}
+              className="text-xs font-medium text-muted-foreground"
+            >
+              Your Answer
+            </label>
             <Textarea
+              id={`answer-${question.id}`}
               className="min-h-24 text-sm leading-relaxed"
               value={answers[question.id] ?? ""}
               onChange={(e) => onAnswer(question.id, e.target.value)}
-              placeholder="Write your answer..."
+              placeholder="Write your answer…"
             />
           </div>
         )}

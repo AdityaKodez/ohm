@@ -28,7 +28,7 @@ export function AnswerReview({
     <div className="flex flex-col gap-3">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="font-heading text-xl font-medium">
+          <h2 className="font-heading text-lg font-medium">
             Answer Review
           </h2>
           <p className="text-sm text-muted-foreground">

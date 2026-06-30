@@ -16,9 +16,11 @@ export function PromptIdeas({ onSelect }: { onSelect: (idea: string) => void }) 
           key={idea}
           className="h-7 cursor-pointer px-3 text-xs font-medium font-heading text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           variant="outline"
-          onClick={() => onSelect(idea)}
+          asChild
         >
-          {idea}
+          <button type="button" onClick={() => onSelect(idea)}>
+            {idea}
+          </button>
         </Badge>
       ))}
     </motion.div>

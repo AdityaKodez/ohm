@@ -7,7 +7,7 @@ export default function Loading() {
         <Spinner />
         <span>
           Loading{" "}
-          <span className="font-display text-foreground/80 italic">Ohm</span>
+          <span className="font-display text-foreground/80 italic">Ohm</span>…
         </span>
       </div>
     </main>

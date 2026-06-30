@@ -65,7 +65,7 @@ export function QuizCreator() {
 
     if (file.type !== "application/pdf") {
       removeFile()
-      setError("Please upload a PDF file for the exhibition demo.")
+      setError("Please upload a PDF file.")
       return
     }
 
@@ -205,7 +205,7 @@ export function QuizCreator() {
                     <span className="truncate text-xs font-semibold text-foreground">
                       {fileName}
                     </span>
-                    <span className="text-[8px] text-muted-foreground">
+                    <span className="text-xs text-muted-foreground">
                       {hasPdf ? fileSize : "Reading…"}
                     </span>
                   </div>
@@ -292,15 +292,9 @@ export function QuizCreator() {
             </InputGroupAddon>
           </InputGroup>
 
-          {fileSizeError && (
+          {(fileSizeError || error) && (
             <div className="rounded-2xl bg-destructive/10 p-3 text-sm text-destructive">
-              {fileSizeError}
-            </div>
-          )}
-
-          {error && (
-            <div className="rounded-2xl bg-destructive/10 p-3 text-sm text-destructive">
-              {error}
+              {fileSizeError || error}
             </div>
           )}
         </motion.div>

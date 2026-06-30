@@ -118,7 +118,7 @@ export function PerformanceCharts({
         {questionChartData.length > 0 ? (
           <ChartContainer
             config={questionChartConfig}
-            className="h-50.5 w-full sm:h-57.5"
+            className="h-52.5 w-full sm:h-57.5"
           >
             <BarChart
               accessibilityLayer
