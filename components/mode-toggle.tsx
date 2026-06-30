@@ -26,7 +26,7 @@ export function ModeToggle() {
     <Button
       variant="outline"
       size="icon"
-      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      aria-label={mounted ? (isDark ? "Switch to light mode" : "Switch to dark mode") : "Toggle theme"}
       onClick={toggle}
       className="relative size-9 overflow-hidden rounded-full border border-border bg-background/80 backdrop-blur-sm"
     >
