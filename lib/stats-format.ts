@@ -33,8 +33,10 @@ export function getAnswerFill(
 }
 
 export function getStatusVariant(
-  status: QuizResult["evaluatedAnswers"][number]["status"]
+  status: QuizResult["evaluatedAnswers"][number]["status"],
+  missed?: boolean
 ) {
+  if (missed) return "outline"
   if (status === "incorrect") return "destructive"
   if (status === "partial") return "secondary"
 
