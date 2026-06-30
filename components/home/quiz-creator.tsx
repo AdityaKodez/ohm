@@ -4,6 +4,7 @@ import { FileType, Loader2, Paperclip, Send, X } from "lucide-react"
 import { AnimatePresence, motion, useReducedMotion } from "motion/react"
 import { useRouter } from "next/navigation"
 import { useMemo, useRef, useState } from "react"
+import { toast } from "sonner"
 
 import { CornerDoodles } from "@/components/home/corner-doodles"
 import { DifficultySelect } from "@/components/home/difficulty-select"
@@ -143,10 +144,10 @@ export function QuizCreator() {
       // Persist under the navigated id so the quiz-loader polling resolves it.
       saveQuiz({ ...data.quiz, id })
     } catch (error) {
-      sessionStorage.setItem(
-        `quiz-error-${id}`,
+      const message =
         error instanceof Error ? error.message : "Quiz generation failed."
-      )
+      toast.error(message)
+      sessionStorage.setItem(`quiz-error-${id}`, message)
     } finally {
       setLoading(false)
     }

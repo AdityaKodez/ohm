@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { DM_Sans, Inter  , Playfair_Display} from "next/font/google";
 
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 
@@ -30,7 +31,10 @@ export default function RootLayout({
       className={cn("antialiased", "font-sans", inter.variable, dmSansHeading.variable , playfairDisplay.variable)}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          {children}
+          <Toaster position="top-center" />
+        </ThemeProvider>
       </body>
     </html>
   )
