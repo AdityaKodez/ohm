@@ -1,17 +1,18 @@
-import { Geist, Geist_Mono, Inter, DM_Sans } from "next/font/google"
+import type { Metadata } from "next";
+import { DM_Sans, Inter  , Playfair_Display} from "next/font/google";
 
-import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/theme-provider";
 import { cn } from "@/lib/utils";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "Ohm | AI Quiz Generator",
+  description: "A live AI quiz generator for school exhibitions.",
+}
 
 const dmSansHeading = DM_Sans({subsets:['latin'],variable:'--font-heading'});
-
+ const playfairDisplay = Playfair_Display({subsets:['latin'],variable:'--font-display'});
 const inter = Inter({subsets:['latin'],variable:'--font-sans'})
-
-const fontMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-})
 
 export default function RootLayout({
   children,
@@ -22,7 +23,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable, dmSansHeading.variable)}
+      className={cn("antialiased", "font-sans", inter.variable, dmSansHeading.variable , playfairDisplay.variable)}
     >
       <body>
         <ThemeProvider>{children}</ThemeProvider>
