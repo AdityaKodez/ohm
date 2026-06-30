@@ -3,8 +3,12 @@ import { ZodError } from "zod"
 
 import { evaluateQuiz } from "@/lib/gemini-ai"
 import { evaluateQuizRequestSchema } from "@/lib/quiz-schema"
+import { enforceRateLimit } from "@/lib/rate-limit"
 
 export async function POST(request: Request) {
+  const rateLimited = await enforceRateLimit(request)
+  if (rateLimited) return rateLimited
+
   try {
     const body = await request.json()
     const { quiz, answers } = evaluateQuizRequestSchema.parse(body)

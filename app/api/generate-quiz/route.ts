@@ -4,11 +4,15 @@ import { ZodError } from "zod"
 import { generateQuiz } from "@/lib/gemini-ai"
 import { extractPdfText, validatePdfContent } from "@/lib/pdf"
 import { generateQuizRequestSchema } from "@/lib/quiz-schema"
+import { enforceRateLimit } from "@/lib/rate-limit"
 
 /** 10 MB raw file size limit (base64 is ~33% larger than raw). */
 const MAX_PDF_SIZE_BYTES = 1 * 1024 * 1024
 
 export async function POST(request: Request) {
+  const rateLimited = await enforceRateLimit(request)
+  if (rateLimited) return rateLimited
+
   try {
     const body = await request.json()
     const payload = generateQuizRequestSchema.parse(body)
