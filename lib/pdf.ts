@@ -1,4 +1,4 @@
-import { PDFParse } from "pdf-parse"
+import { extractText, getDocumentProxy } from "unpdf"
 
 /** Maximum characters to send to the AI model from extracted PDF text. */
 const MAX_TEXT_LENGTH = 20_000
@@ -7,30 +7,24 @@ const MAX_TEXT_LENGTH = 20_000
 const MIN_TEXT_LENGTH = 50
 
 /**
- * Extracts text content from a PDF buffer using pdf-parse.
+ * Extracts text content from a PDF buffer using unpdf (serverless-safe).
  *
- * This performs real PDF parsing — decoding content streams, handling
- * multi-page documents, and preserving paragraph structure — unlike
- * the previous implementation which read raw bytes and produced garbage.
+ * unpdf ships its own serverless build of PDF.js — no DOMMatrix or other
+ * browser globals required, making it safe on Vercel's Node.js runtime.
  */
 export async function extractPdfText(buffer: Buffer): Promise<string> {
-  const parser = new PDFParse({ data: new Uint8Array(buffer) })
-  const result = await parser.getText()
+  const pdf = await getDocumentProxy(new Uint8Array(buffer))
+  const { text } = await extractText(pdf, { mergePages: true })
 
-  // Clean up and destroy the parser to free resources
-  await parser.destroy()
-
-  const text = result.text
-    .replace(/\r\n/g, "\n")          // Normalise line endings
-    .replace(/[ \t]+/g, " ")         // Collapse horizontal whitespace
-    .replace(/\n{3,}/g, "\n\n")      // Max two consecutive newlines
+  const cleaned = text
+    .replace(/\r\n/g, "\n")       // Normalise line endings
+    .replace(/[ \t]+/g, " ")      // Collapse horizontal whitespace
+    .replace(/\n{3,}/g, "\n\n")   // Max two consecutive newlines
     .trim()
 
-  if (text.length > MAX_TEXT_LENGTH) {
-    return text.slice(0, MAX_TEXT_LENGTH)
-  }
-
-  return text
+  return cleaned.length > MAX_TEXT_LENGTH
+    ? cleaned.slice(0, MAX_TEXT_LENGTH)
+    : cleaned
 }
 
 /**
@@ -49,8 +43,6 @@ export function validatePdfContent(text: string): {
     }
   }
 
-  // Check if the text is mostly PDF structural tokens rather than real words.
-  // Real document text will have a high ratio of alphabetic characters.
   const alphaChars = text.replace(/[^a-zA-Z]/g, "").length
   const alphaRatio = alphaChars / text.length
 
