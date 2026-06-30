@@ -184,7 +184,7 @@ export function QuizCreator() {
                 transition={{ duration: 0.22, ease: easeOut }}
                 className="grid grid-cols-1 sm:grid-cols-3"
               >
-                <div className="flex items-center gap-3 rounded-sm border border-border bg-card/10 p-1.5 font-heading hover:bg-card/80">
+                <div className="flex items-center gap-3 rounded-lg border border-border bg-card/10 p-1.5 font-heading hover:bg-card/80">
                   <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-foreground/5 text-foreground/70 ring-1 ring-inset ring-border">
                     {hasPdf ? (
                       <FileType className="size-4" />
