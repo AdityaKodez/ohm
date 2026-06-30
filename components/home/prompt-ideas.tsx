@@ -14,7 +14,7 @@ export function PromptIdeas({ onSelect }: { onSelect: (idea: string) => void }) 
       {promptIdeas.map((idea) => (
         <Badge
           key={idea}
-          className="h-7 cursor-pointer px-3 text-xs font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          className="h-7 cursor-pointer px-3 text-xs font-medium font-heading text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           variant="outline"
           onClick={() => onSelect(idea)}
         >
